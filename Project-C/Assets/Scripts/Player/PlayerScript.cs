@@ -11,14 +11,18 @@ public class PlayerScript : MonoBehaviour
     public Sprite hpFullSprite,hpEmptySprite;
 
     [Header("Weapon Elements")]
-    public Sprite greenElementSprite;
-    public Sprite waterElementSprite, fireElementSprite;
+    public Image greenElementSprite;
+    public Image waterElementSprite, fireElementSprite, baseAttackSprite;
     public float greenCD, waterCD, fireCD, baseCD;
+    public float barrierDuration;
     public bool greenAvalaible, waterAvalaible, fireAvalaible;
     public BoxCollider2D attackCollider;
+    public GameObject barrierGO,waterSlashGO;
 
-    private float greenCurrCD = 0, waterCurrCD = 0, fireCurrCD = 0, baseCurrCD=0;
-
+    private float currCD=0; // cd shared between attacks
+    private float currBarrierDur;
+    [Header("Weapon GameObjects")]
+    public GameObject basicSlashGameObject;
 
     List<Image> healthSprites;
     SpriteRenderer spriteRenderer;
@@ -43,19 +47,56 @@ public class PlayerScript : MonoBehaviour
         {
             timeSinceTakingDamage += Time.deltaTime;
             if (timeSinceTakingDamage >= eyeFrameTime)
-            { 
+            {
                 tookDamage = false; //end of invulnerability
                 timeSinceTakingDamage = 0;
-                if(health>0) spriteRenderer.color = Color.white;
+                if (health > 0) spriteRenderer.color = Color.white;
             }
         }
         //flip attack collider when character is flipped
         if ((spriteRenderer.flipX && attackCollider.offset.x > 0) || (!spriteRenderer.flipX && attackCollider.offset.x < 0))
-            attackCollider.offset *= new Vector2(-1,1);
-        if (baseCurrCD > 0) baseCurrCD -= Time.deltaTime;
-        if (waterCurrCD > 0) waterCurrCD -= Time.deltaTime;
-        if (fireCurrCD > 0) fireCurrCD -= Time.deltaTime;
-        if (greenCurrCD > 0) greenCurrCD -= Time.deltaTime;
+        {
+            attackCollider.offset *= new Vector2(-1, 1);
+            Vector3 pos = basicSlashGameObject.transform.localPosition;
+            basicSlashGameObject.transform.localPosition = new Vector3(-1*pos.x,pos.y,pos.z);
+            basicSlashGameObject.GetComponent<SpriteRenderer>().flipX = spriteRenderer.flipX;
+        }
+        UpdateAttacksCD();
+        UpdateBarrier();
+    }
+
+    private void UpdateAttacksCD()
+    {
+        if (currCD > 0)
+        {
+            currCD -= Time.deltaTime;
+            if (currCD <= 0)
+            {
+                baseAttackSprite.color = Color.white;
+                if (waterAvalaible) waterElementSprite.color = Color.white;
+                if (fireAvalaible) fireElementSprite.color = Color.white;
+                if (greenAvalaible) greenElementSprite.color = Color.white;
+            }
+            else
+            {
+                baseAttackSprite.color = Color.black;
+                if (waterAvalaible) waterElementSprite.color = Color.black;
+                if (fireAvalaible) fireElementSprite.color = Color.black;
+                if (greenAvalaible) greenElementSprite.color = Color.black;
+            }
+        }
+    }
+
+    private void UpdateBarrier()
+    {
+        if (currBarrierDur > 0)
+        {
+            currBarrierDur -= Time.deltaTime;
+            if (currBarrierDur <= 0)
+            {
+                barrierGO.SetActive(false);
+            }
+        }
     }
 
     private void Die()
@@ -82,10 +123,18 @@ public class PlayerScript : MonoBehaviour
     {
         if (tookDamage || health==0)
             return; //player is invulnerable -> skip taking damage
+        if (currBarrierDur > 0) //check for barrier
+        {
+            currBarrierDur = 0;
+            barrierGO.SetActive(false);
+        }
+        else
+        {
+            health -= damage;
+            spriteRenderer.color = Color.red;
+        }
         tookDamage = true;
-        health -= damage;
         RefreshUI();
-        spriteRenderer.color = Color.red;
         if (health <= 0)
             Die();
         
@@ -93,15 +142,43 @@ public class PlayerScript : MonoBehaviour
 
     public void BaseAttack()
     {
-        if (baseCurrCD <= 0)
+        if (currCD <= 0)
         {
             Debug.Log("dealing dmg");
-            baseCurrCD = baseCD;
+            basicSlashGameObject.GetComponent<SpriteShowScript>().Show();
+            currCD = baseCD;
             foreach(var enemy in colliders)
             {
                 enemy.GetComponent<EnemyBehaviorScript>().TakeDamage();
             }
         }
+    }
+
+    public void WaterAttack()
+    {
+        if (!waterAvalaible || currCD > 0) return;
+        GameObject slash = Instantiate(waterSlashGO,transform.position,transform.rotation);
+        slash.GetComponent<SpriteRenderer>().flipX = !spriteRenderer.flipX;
+        Debug.Log("casting water");
+        currCD = waterCD;
+    }
+
+    public void GreenAttack()
+    {
+        if (!greenAvalaible || currCD > 0) return;
+
+        Debug.Log("casting green");
+        currCD = greenCD;
+    }
+
+    public void FireAttack()
+    {
+        if (!fireAvalaible || currCD > 0) return;
+        currBarrierDur = barrierDuration;
+        barrierGO.SetActive(true);
+        Debug.Log("casting fire");
+        currCD = fireCD;
+       
     }
 
     public void RestoreHealth(int heal)
@@ -123,6 +200,24 @@ public class PlayerScript : MonoBehaviour
         else if (collision.gameObject.tag == "Enemy")
         {
             colliders.Add(collision);
+        }
+        else if(collision.gameObject.tag == "BlueJewel")
+        {
+            waterAvalaible = true;
+            collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            waterElementSprite.color = Color.white;
+        }
+        else if (collision.gameObject.tag == "GreenJewel")
+        {
+            greenAvalaible = true;
+            collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            greenElementSprite.color = Color.white;
+        }
+        else if (collision.gameObject.tag == "RedJewel")
+        {
+            fireAvalaible = true;
+            collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            fireElementSprite.color = Color.white;
         }
     }
 

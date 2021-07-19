@@ -52,6 +52,9 @@ public class EnemyBehaviorScript : MonoBehaviour
     public void TakeDamage()
     {
         HP -= 1;
+        float dir = 1;
+        if (sr.flipX) dir = -1;
+        GetComponent<Rigidbody2D>().velocity = new Vector2(dir*3,5);
         Debug.Log("Enemy took dmg");
         if (HP <= 0)
             die = true;

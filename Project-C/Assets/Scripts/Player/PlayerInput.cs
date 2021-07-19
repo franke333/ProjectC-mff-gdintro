@@ -37,6 +37,12 @@ public class PlayerInput : MonoBehaviour
             sr.flipX = true;
         if (Input.GetButtonDown("Attack"))
             ps.BaseAttack();
+        if (Input.GetButtonDown("FireAttack"))
+            ps.FireAttack();
+        if (Input.GetButtonDown("WaterAttack"))
+            ps.WaterAttack();
+        if (Input.GetButtonDown("GreenAttack"))
+            ps.GreenAttack();
     }
 
     void FixedUpdate()
