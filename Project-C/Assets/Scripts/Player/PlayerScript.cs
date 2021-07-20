@@ -9,6 +9,8 @@ public class PlayerScript : MonoBehaviour
     public float eyeFrameTime = 1; //invulnerability period after taking damage
     public List<GameObject> HealthSpritesObjects;
     public Sprite hpFullSprite,hpEmptySprite;
+    public GameObject background;
+    public Sprite forest_bckg, cave_bckg;
 
     [Header("Weapon Elements")]
     public Image greenElementSprite;
@@ -17,7 +19,7 @@ public class PlayerScript : MonoBehaviour
     public float barrierDuration;
     public bool greenAvalaible, waterAvalaible, fireAvalaible;
     public BoxCollider2D attackCollider;
-    public GameObject barrierGO,waterSlashGO;
+    public GameObject barrierGO,waterSlashGO,greenGO,fireGO;
 
     private float currCD=0; // cd shared between attacks
     private float currBarrierDur;
@@ -29,6 +31,7 @@ public class PlayerScript : MonoBehaviour
     bool tookDamage = false;
     float timeSinceTakingDamage = 0;
     HashSet<Collider2D> colliders = new HashSet<Collider2D>(); // enemies in range of meele attack
+
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -166,7 +169,8 @@ public class PlayerScript : MonoBehaviour
     public void GreenAttack()
     {
         if (!greenAvalaible || currCD > 0) return;
-
+        GameObject slash = Instantiate(greenGO, transform.position, transform.rotation);
+        slash.GetComponent<SpriteRenderer>().flipX = !spriteRenderer.flipX;
         Debug.Log("casting green");
         currCD = greenCD;
     }
@@ -176,6 +180,10 @@ public class PlayerScript : MonoBehaviour
         if (!fireAvalaible || currCD > 0) return;
         currBarrierDur = barrierDuration;
         barrierGO.SetActive(true);
+
+        GameObject slash = Instantiate(fireGO, transform.position, transform.rotation);
+        slash = Instantiate(fireGO, transform.position, transform.rotation);
+        slash.GetComponent<SpriteRenderer>().flipX = true;
         Debug.Log("casting fire");
         currCD = fireCD;
        
@@ -192,7 +200,10 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.gameObject.CompareTag("Cave"))
+            background.GetComponent<SpriteRenderer>().sprite = cave_bckg;
+        if (collision.gameObject.CompareTag("Forest"))
+            background.GetComponent<SpriteRenderer>().sprite = forest_bckg;
         if (collision.gameObject.tag == "Respawn")
         {
             RestoreHealth(3);

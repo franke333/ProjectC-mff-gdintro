@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &191693100237859002
+--- !u!1 &3504320686767745465
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5260788783880792408}
-  - component: {fileID: 7444367646044227397}
-  - component: {fileID: 5055054311223312553}
-  - component: {fileID: 7401651814157158951}
+  - component: {fileID: 6946346206914125839}
+  - component: {fileID: 3715804012273110459}
+  - component: {fileID: 8189846088207214743}
+  - component: {fileID: 8189846088207214742}
+  - component: {fileID: 8189846088207214697}
   m_Layer: 0
-  m_Name: water_slash
-  m_TagString: Untagged
+  m_Name: NatureSlime
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5260788783880792408
+--- !u!4 &6946346206914125839
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191693100237859002}
+  m_GameObject: {fileID: 3504320686767745465}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.67, y: -1.41, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 22.1, y: 0.06, z: 0}
+  m_LocalScale: {x: 2.8407, y: 2.6566, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7444367646044227397
+--- !u!212 &3715804012273110459
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191693100237859002}
+  m_GameObject: {fileID: 3504320686767745465}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -73,58 +74,80 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 71c38d62a5d0f98438ab3460353b943a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 99c4c278aad750e4893a2d7bd345092a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.48, y: 0.48}
+  m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5055054311223312553
+--- !u!50 &8189846088207214743
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504320686767745465}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!61 &8189846088207214742
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191693100237859002}
+  m_GameObject: {fileID: 3504320686767745465}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.089460194}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.48, y: 0.48}
+    oldSize: {x: 0.48, y: 0.48}
+    newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.48326075, y: 0.28760195}
   m_EdgeRadius: 0
---- !u!114 &7401651814157158951
+--- !u!114 &8189846088207214697
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191693100237859002}
+  m_GameObject: {fileID: 3504320686767745465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70c1fb3416dc6d3418008a63d71d9b45, type: 3}
+  m_Script: {fileID: 11500000, guid: 550c59d26c168e8479a5c7166279cbcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 7444367646044227397}
-  speed: 8.95
-  lifespan: 2.28
-  offset: {x: 0.38, y: -0.33}
-  rootDuration: 0
-  dealsDMG: 1
+  speed: 1.52
+  detectionRange: 9.36
+  HP: 2
+  slimeType: 1
+  WaterAttackGO: {fileID: 5106611034452297387, guid: b80f24fd3d4dddc47b0466c0429ea720, type: 3}
+  FireAttackGO: {fileID: 3436137351781961703, guid: 95d7ee808acb4f74abf73549bb02e13e, type: 3}
+  NatureAttackGO: {fileID: 4646273805107252980, guid: 8279b3d783acb904d82fdbc63785a4e1, type: 3}

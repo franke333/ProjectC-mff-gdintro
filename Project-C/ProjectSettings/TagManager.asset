@@ -9,6 +9,8 @@ TagManager:
   - BlueJewel
   - GreenJewel
   - RedJewel
+  - Forest
+  - Cave
   layers:
   - Default
   - TransparentFX

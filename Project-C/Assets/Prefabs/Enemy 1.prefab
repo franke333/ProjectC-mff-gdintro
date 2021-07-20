@@ -147,3 +147,7 @@ MonoBehaviour:
   speed: 1.52
   detectionRange: 6.16
   HP: 2
+  slimeType: 2
+  WaterAttackGO: {fileID: 5106611034452297387, guid: b80f24fd3d4dddc47b0466c0429ea720, type: 3}
+  FireAttackGO: {fileID: 0}
+  NatureAttackGO: {fileID: 0}
