@@ -9,6 +9,7 @@ public class PlayerInput : MonoBehaviour
 
     Rigidbody2D rb;
     SpriteRenderer sr;
+    Animator animator;
     float horizontalInput;
     bool jumpInput;
     bool grounded;
@@ -19,6 +20,7 @@ public class PlayerInput : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
         sr = this.GetComponent<SpriteRenderer>();
         ps = this.GetComponent<PlayerScript>();
+        animator = this.GetComponent<Animator>();
         if (rb == null)
             Debug.LogError("No rigidbody2D connected (PlayerInput)");
         grounded = true;
@@ -30,6 +32,8 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
+        if (horizontalInput != 0) animator.SetBool("Running", true);
+        else animator.SetBool("Running", false);
         jumpInput = Input.GetButton("Jump");
         if (horizontalInput > 0)
             sr.flipX = false;

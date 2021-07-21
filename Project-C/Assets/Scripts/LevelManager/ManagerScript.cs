@@ -26,6 +26,11 @@ public class ManagerScript : MonoBehaviour
 
     public void Update()
     {
+        if (Input.GetButtonDown("Exit"))
+        {
+            Debug.Log("Quitting");
+            Application.Quit();
+        }
         switch (restartState)
         {
             case restartStateEnum.FADEIN:
